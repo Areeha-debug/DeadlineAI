@@ -9,6 +9,10 @@ if "GMAIL_CREDENTIALS_JSON" in os.environ:
     with open("./GMAIL_CREDENTIALS.json", "w") as f:
         f.write(os.environ["GMAIL_CREDENTIALS_JSON"])
 
+if "GMAIL_TOKEN_JSON" in os.environ:
+    with open("./token.json", "w") as f:
+        f.write(os.environ["GMAIL_TOKEN_JSON"])
+
 required_keys = [
     "OPENAI_API_KEY",
     "NOTION_API_KEY",
