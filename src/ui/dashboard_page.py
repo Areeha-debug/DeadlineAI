@@ -30,16 +30,24 @@ def show_dashboard_page():
         st.success("✅ Available")
 
     st.markdown("### Add a Voice Task")
-    if st.button("🎤 Record Voice Task (5s)"):
-        with st.spinner("Recording and transcribing..."):
-            try:
-                voice_task = add_voice_task()
-                st.session_state.tasks.append(voice_task)
-                st.success("Voice task added successfully!")
-            except Exception as e:
-                st.session_state.error = f"Failed to record voice task: {
-                    str(e)}"
-                st.rerun()
+    audio_value = st.audio_input("Record Voice Task")
+    
+    if audio_value:
+        if "last_audio_hash" not in st.session_state:
+            st.session_state.last_audio_hash = None
+            
+        current_audio_hash = hash(audio_value.getvalue())
+        
+        if current_audio_hash != st.session_state.last_audio_hash:
+            st.session_state.last_audio_hash = current_audio_hash
+            with st.spinner("Transcribing with Groq Whisper..."):
+                try:
+                    voice_task = add_voice_task(audio_value)
+                    st.session_state.tasks.append(voice_task)
+                    st.success("Voice task added successfully!")
+                except Exception as e:
+                    st.session_state.error = f"Failed to transcribe voice task: {str(e)}"
+                    st.rerun()
 
     st.markdown("---")
     if st.button(

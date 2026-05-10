@@ -15,7 +15,7 @@ if "GMAIL_TOKEN_JSON" in os.environ:
         f.write(os.environ["GMAIL_TOKEN_JSON"])
 
 required_keys = [
-    "OPENAI_API_KEY",
+    "GROQ_API_KEY",
     "NOTION_API_KEY",
     "NOTION_DATABASE_ID",
     "GMAIL_CREDENTIALS_JSON_PATH"

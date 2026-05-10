@@ -1,6 +1,6 @@
 import os
 import json
-from openai import OpenAI
+from groq import Groq
 from src.tools.task_tools import fetch_all_tasks, prioritize_tasks
 from src.memory.task_store import save_tasks
 from src.tools.tool_registry import TOOL_DEFINITIONS, execute_tool
@@ -53,15 +53,15 @@ Please begin deduplication and prioritization immediately."""
         {"role": "user", "content": user_message}
     ]
 
-    openai_api_key = os.environ.get("OPENAI_API_KEY")
-    client = OpenAI(api_key=openai_api_key)
+    groq_api_key = os.environ.get("GROQ_API_KEY")
+    client = Groq(api_key=groq_api_key)
     max_iterations = 10
 
     for i in range(max_iterations):
         print(f"Agent loop iteration {i + 1}/{max_iterations}")
 
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model="llama-3.3-70b-versatile",
             messages=messages,
             tools=TOOL_DEFINITIONS,
             tool_choice="auto",
